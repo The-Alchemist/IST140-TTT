@@ -131,7 +131,7 @@ namespace TTT
             // Top row, 7 8 9
             if (input.Equals("7"))
             {
-                if (slot[0] != "O" && slot[0] != "X")
+                if (IsSlotBlank(0))
                 {
                     slot[0] = (turn ? "O" : "X");
                     turn = !turn;
@@ -142,7 +142,7 @@ namespace TTT
             }
             else if (input.Equals("8"))
             {
-                if (slot[1] != "O" && slot[1] != "X")
+                if (IsSlotBlank(1))
                 {
                     slot[1] = (turn ? "O" : "X");
                     turn = !turn;
@@ -153,7 +153,7 @@ namespace TTT
             }
             else if (input.Equals("9"))
             {
-                if (slot[2] != "O" && slot[2] != "X")
+                if (IsSlotBlank(2))
                 {
                     slot[2] = (turn ? "O" : "X");
                     turn = !turn;
@@ -165,7 +165,7 @@ namespace TTT
             // Middle row, 4 5 6
             else if (input.Equals("4"))
             {
-                if (slot[3] != "O" && slot[3] != "X")
+                if (IsSlotBlank(3))
                 {
                     slot[3] = (turn ? "O" : "X");
                     turn = !turn;
@@ -176,7 +176,7 @@ namespace TTT
             }
             else if (input.Equals("5"))
             {
-                if (slot[4] != "O" && slot[4] != "X")
+                if (IsSlotBlank(4))
                 {
                     slot[4] = (turn ? "O" : "X");
                     turn = !turn;
@@ -187,7 +187,7 @@ namespace TTT
             }
             else if (input.Equals("6"))
             {
-                if (slot[5] != "O" && slot[5] != "X")
+                if (IsSlotBlank(5))
                 {
                     slot[5] = (turn ? "O" : "X");
                     turn = !turn;
@@ -199,7 +199,7 @@ namespace TTT
             // Bottom row, 1 2 3
             else if (input.Equals("1"))
             {
-                if (slot[6] != "O" && slot[6] != "X")
+                if (IsSlotBlank(6))
                 {
                     slot[6] = (turn ? "O" : "X");
                     turn = !turn;
@@ -210,7 +210,7 @@ namespace TTT
             }
             else if (input.Equals("2"))
             {
-                if (slot[7] != "O" && slot[7] != "X")
+                if (IsSlotBlank(7))
                 {
                     slot[7] = (turn ? "O" : "X");
                     turn = !turn;
@@ -221,7 +221,7 @@ namespace TTT
             }
             else if (input.Equals("3"))
             {
-                if (slot[8] != "O" && slot[8] != "X")
+                if (IsSlotBlank(8))
                 {
                     slot[8] = (turn ? "O" : "X");
                     turn = !turn;
@@ -234,6 +234,11 @@ namespace TTT
             {
                 statusMessage = "Invalid Input!";
             }
+        }
+
+        private bool IsSlotBlank(int input)
+        {
+            return slot[input] != "O" && slot[input] != "X";
         }
         private void CheckEndGame()
         {
@@ -294,6 +299,19 @@ namespace TTT
                 DisplayWinCongrats();
             }
             // Check for draw
+            bool openSlotCheck = CheckDraw();
+            // If no empty slots and no win, we have a draw :(
+            if (!openSlotCheck)
+            {
+                Console.WriteLine("Uhoh, we have a draw! Good game, try again :)");
+                Console.ReadKey();
+                InitGame();
+            }
+
+        }
+
+        private bool CheckDraw()
+        {
             bool openSlotCheck = false;
             foreach (String s in slot)
             {
@@ -304,25 +322,17 @@ namespace TTT
                     break;
                 }
             }
-            // If no empty slots and no win, we have a draw :(
-            if (!openSlotCheck)
-            {
-                Console.WriteLine("Uhoh, we have a draw! Good game, try again :)");
-                Console.ReadKey();
-                InitGame();
-            }
-
+            return openSlotCheck;
         }
         private void DisplayWinCongrats()
         {
-            ConsoleColor c;
             Random r = new Random();
             DateTime endScrollTime = DateTime.Now.AddSeconds(3);
             // Scroll wild colors for 3 seconds
             while (DateTime.Now < endScrollTime)
             {
-                c = (ConsoleColor)r.Next(1, 16);
-                Console.ForegroundColor = c;
+
+                Console.ForegroundColor = (ConsoleColor)r.Next(1, 16);
                 Console.Write("****************************************************************************\n");
             }
             Console.ResetColor();

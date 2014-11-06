@@ -26,7 +26,6 @@ namespace TTT
             // Instantiate a game!
             TicTacToe game = new TicTacToe();
             bool done = false;
-            String input = "";
 
             while (!done)
             {
@@ -35,7 +34,7 @@ namespace TTT
 
                 Console.Write("\n> ");
                 // Read the input!
-                input = Console.ReadLine();
+                String input = Console.ReadLine();
 
                 // Parse input, check for things
                 switch (input)
