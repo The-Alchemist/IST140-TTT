@@ -298,7 +298,7 @@ namespace TTT
             foreach (String s in slot)
             {
                 // Is there still an open slot that isn't an X or O?
-                if (s != "X" && s != "O")
+                if (!s.Equals("X") && !s.Equals("O"))
                 {
                     openSlotCheck = true;
                     break;
